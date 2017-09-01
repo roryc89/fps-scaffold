@@ -1,7 +1,7 @@
 
-const init = function(scene, pointerLockControls){
-  scene.add(pointerLockControls.getObject());
-  var onKeyDown = function(event) {
+const init = () => {
+
+  const onKeyDown = (event) => {
     switch (event.keyCode) {
       case 38: // up
       case 87: // w
@@ -27,7 +27,8 @@ const init = function(scene, pointerLockControls){
         break;
     }
   };
-  var onKeyUp = function(event) {
+
+  const onKeyUp = (event) => {
     switch (event.keyCode) {
       case 38: // up
       case 87: // w
