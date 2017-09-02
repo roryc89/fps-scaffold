@@ -1,9 +1,12 @@
 const io = require('socket.io-client');
+const Avatar = require('./Avatar');
+const getScene= require('./get_scene');
 
 const socket = io('http://localhost:1080');
 
 socket.on('new player', (data) => {
   console.log('newdata');
+  getScene().add(Avatar.create().mesh);
 });
 
 socket.on('other player position', (data) => {

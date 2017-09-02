@@ -1,6 +1,6 @@
 const THREE = require('three');
 
-const create = (scene, options) => {
+const create = (options) => {
 
   options = options || {};
   const avatar = {};
@@ -9,7 +9,7 @@ const create = (scene, options) => {
   avatar.scale = options.scale || new THREE.Vector3(1, 1, 1);
   avatar.fallbackImage = options.fallbackImage || 'avatar.png';
   createCanvases(avatar);
-  avatar.mesh = createPlayerObject(scene, avatar);
+  avatar.mesh = createPlayerObject(avatar);
   avatar.mesh.scale.set(avatar.sizeRatio, avatar.sizeRatio * 0.75, avatar.sizeRatio);
 
   avatar.walkSpeed = 0.6;
@@ -33,19 +33,27 @@ const createCanvases = (avatar) => {
   avatar.avatar.height = 32;
 };
 
-const createPlayerObject = (scene, avatar) => {
+const createPlayerObject = (avatar) => {
   new THREE.Object3D();
   const upperbody = avatar.upperbody = new THREE.Object3D();
   new THREE.MeshBasicMaterial({color: new THREE.Color('grey')});
 
-  const armMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/arm.png')});
-  const bodyMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/body.png')});
-  const bottomMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/bottom.png')});
-  const handMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/hand.png')});
-  const legMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/leg.png')});
-  const shoeMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/shoe.png')});
-  const shoulderMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/shoulder.png')});
-  const sideMaterial = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/side.png')});
+  const armMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/arm.png')});
+  const bodyMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/body.png')});
+  const bottomMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/bottom.png')});
+  const handMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/hand.png')});
+  const legMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/leg.png')});
+  const shoeMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/shoe.png')});
+  const shoulderMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/shoulder.png')});
+  const sideMaterial =
+     new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/bodyTextures/defaultPerson/side.png')});
 
   const armMatFull = new THREE.MeshFaceMaterial([
     armMaterial,
@@ -135,7 +143,7 @@ const createPlayerObject = (scene, avatar) => {
   const playerGroup = new THREE.Object3D();
 
   playerGroup.add(playerRotation);
-  playerGroup.scale = avatar.scale;
+  playerGroup.scale.set(avatar.scale);
   return playerGroup;
 };
 
