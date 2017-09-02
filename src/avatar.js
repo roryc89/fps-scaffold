@@ -5,7 +5,7 @@ const create = (options) => {
   options = options || {};
   const avatar = {};
 
-  avatar.sizeRatio = options.sizeRatio || 0.4;
+  avatar.sizeRatio = options.sizeRatio || 1;
   avatar.scale = options.scale || new THREE.Vector3(1, 1, 1);
   avatar.fallbackImage = options.fallbackImage || 'avatar.png';
   createCanvases(avatar);
@@ -126,26 +126,51 @@ const createPlayerObject = (avatar) => {
 
   upperbody.add(rightarm);
 
+  const head = createHead();
+  head.position.y += 10;
+
   const playerModel = avatar.playerModel = new THREE.Object3D();
 
   playerModel.add(leftleg);
   playerModel.add(rightleg);
-
   playerModel.add(upperbody);
+  playerModel.add(head);
 
   const playerRotation = new THREE.Object3D();
   playerRotation.rotation.y = Math.PI / 2;
   playerRotation.position.y = 12;
   playerRotation.add(playerModel);
 
-  playerModel.position.y = 6;
+  playerModel.position.y = -12;
 
   const playerGroup = new THREE.Object3D();
 
   playerGroup.add(playerRotation);
   playerGroup.scale.set(avatar.scale);
+
   return playerGroup;
 };
+
+const createHead = () => {
+  const geometry = new THREE.BoxGeometry( 4, 7, 7 );
+
+  const plainMaterial = new THREE.MeshBasicMaterial( {color: 'lightgrey'} );
+
+  const materialArray = [
+    new THREE.MeshBasicMaterial( { color:'white', map: THREE.ImageUtils.loadTexture( 'images/smiley.png' ) }),
+    plainMaterial,
+    plainMaterial,
+    plainMaterial,
+    plainMaterial,
+    plainMaterial
+  ];
+  
+  const material = new THREE.MeshFaceMaterial(materialArray);
+
+  const head = new THREE.Mesh( geometry, material );
+
+  return head;
+}
 
 const render = (avatar) => {
   var time = Date.now() / 1000;
