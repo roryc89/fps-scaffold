@@ -29,6 +29,11 @@ module.exports = function(objects, raycaster, prevTime, time){
   if (isOnObject === true) {
     velocity.y = Math.max(0, velocity.y);
     movements.canJump = true;
+
+    // prevents resting position y of players from changing after jump
+    if (getPlayer().position.y < 20 && velocity.y <= 0) {
+      getPlayer().position.y = 10;
+    }
   }
 
   if (movements.jumping){
