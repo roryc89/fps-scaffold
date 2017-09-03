@@ -1,3 +1,4 @@
+// this file sets up the 3D scene when a player starts
 const THREE = require('three');
 const PointerLockControls = require('three-pointerlock');
 const blocker = require('../blocker');

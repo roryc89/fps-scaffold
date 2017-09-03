@@ -164,13 +164,13 @@ const createHead = () => {
     plainMaterial,
     plainMaterial
   ];
-  
+
   const material = new THREE.MeshFaceMaterial(materialArray);
 
   const head = new THREE.Mesh( geometry, material );
 
   return head;
-}
+};
 
 const render = (avatar) => {
   var time = Date.now() / 1000;
@@ -196,7 +196,30 @@ const render = (avatar) => {
   avatar.leftLeg.rotation.z = 1.4 * Math.cos(0.6662 * time * 10 + Math.PI) * avatar.walkSpeed;
 };
 
+const startWalking = (avatar) => {
+
+  var now = Date.now() / 1000;
+  avatar.walking = true;
+  if (avatar.stoppedWalking + avatar.acceleration > now){
+    avatar.startedWalking = now - (avatar.stoppedWalking + avatar.acceleration - now);
+  } else {
+    avatar.startedWalking = Date.now() / 1000;
+  }
+};
+
+const stopWalking = (avatar) => {
+  var now = Date.now() / 1000;
+  avatar.walking = false;
+  if (avatar.startedWalking + avatar.acceleration > now){
+    avatar.stoppedWalking = now - (avatar.startedWalking + avatar.acceleration - now);
+  } else {
+    avatar.stoppedWalking = Date.now() / 1000;
+  }
+};
+
 module.exports = {
   create,
+  startWalking,
+  stopWalking,
   render
 };

@@ -4,6 +4,7 @@ const {movements} = require('./controls');
 
 const velocity = new THREE.Vector3();
 
+// handles the movements set by controls and moves your player during animation appropriately
 module.exports = function(objects, raycaster, prevTime, time){
   raycaster.ray.origin.copy(getPlayer().position);
   raycaster.ray.origin.y -= 10;
@@ -56,6 +57,8 @@ module.exports = function(objects, raycaster, prevTime, time){
   }
 };
 
+// this is to stop lots of tiny movements from being sent to server once
+// player has stopped moving but continues to slightly slide
 const stopIfSlow = (velocity) =>
   Math.abs(velocity) < 0.1
     ? 0

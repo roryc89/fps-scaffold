@@ -1,3 +1,4 @@
+// sets up screen blocker (the darkened screen with instructions you see when you press esc)
 module.exports = function(controls){
   var blocker = document.getElementById('blocker');
   var instructions = document.getElementById('instructions');
@@ -33,7 +34,7 @@ module.exports = function(controls){
     document.addEventListener('pointerlockerror', pointerlockerror, false);
     document.addEventListener('mozpointerlockerror', pointerlockerror, false);
     document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
-    
+
     instructions.addEventListener('click', function() {
       instructions.style.display = 'none';
       // Ask the browser to lock the pointer

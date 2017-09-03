@@ -1,4 +1,4 @@
-
+// adds listeners for key presses for controlling the player
 const init = () => {
 
   const onKeyDown = (event) => {
