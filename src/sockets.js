@@ -12,7 +12,7 @@ socket.on('player data', (playerData) => {
   delete playerData[socket.id];
   otherPlayers.set(playerData);
 
-  Object.keys(playerData).forEach((id) => {
+  Object.keys(otherPlayers.get()).forEach((id) => {
     const avatar = Avatar.create();
 
     getScene().add(avatar.mesh);
@@ -30,11 +30,14 @@ socket.on('new player', ({id}) => {
   getScene().add(avatar.mesh);
 
   avatar.name = id;
-  otherPlayers.get()[id] = {position:{}, avatar};
+  // high y value to hide bug where extra avatar appears in starting spot
+  otherPlayers.addPlayer(id, {position:{x: 0, y: 100, z:0}, rotaion:{}, avatar});
 });
 
-socket.on('other player position', ({id, position}) => {
-  otherPlayers.get()[id].position = position;
+socket.on('other player position', ({id, position, rotation}) => {
+  const player = otherPlayers.get()[id];
+  player.position = position;
+  player.rotation = rotation;
 });
 
 socket.on('other player disconnected', ({id}) => {
@@ -42,18 +45,22 @@ socket.on('other player disconnected', ({id}) => {
   const players = otherPlayers.get();
 
   const avatar = players[id].avatar;
-  getScene().remove(avatar);
+  getScene().remove(avatar.mesh);
   delete players[id];
 });
 
 const lastPosition = {x: null, y: null, z:null};
+const lastRotation = {x: null, y: null, z:null};
 
-const emitPlayerPosition = (position) => {
-  if (positionsDifferent(position, lastPosition)) {
-    socket.emit('position', position);
+const emitPlayerPosition = (position, rotation) => {
+  if (positionsDifferent(position, lastPosition) || positionsDifferent(rotation, lastRotation)) {
+    socket.emit('position', {position, rotation});
     lastPosition.x = position.x;
     lastPosition.y = position.y;
     lastPosition.z = position.z;
+    lastRotation.x = rotation.x;
+    lastRotation.y = rotation.y;
+    lastRotation.z = rotation.z;
   }
 };
 

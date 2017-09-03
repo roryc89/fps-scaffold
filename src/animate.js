@@ -2,8 +2,8 @@ const sockets = require('./sockets');
 const blocker = require('./blocker');
 const movePlayer = require('./move_player');
 const getPlayer = require('./get_player');
-const otherPlayers = require('./other_players')
-const moveOtherPlayer = require('./move_other_player')
+const otherPlayers = require('./other_players');
+const moveOtherPlayer = require('./move_other_player');
 
 const start = (options) => {
   const {
@@ -22,7 +22,8 @@ const start = (options) => {
     if (!blocker.enabled) {
       const time = performance.now();
       movePlayer(objects, raycaster, prevTime, time);
-      sockets.emitPlayerPosition(getPlayer().position);
+      const player = getPlayer();
+      sockets.emitPlayerPosition(player.position, player.rotation);
       const players = otherPlayers.get();
       Object.keys(players).forEach((id) => {
         moveOtherPlayer(id, players[id]);

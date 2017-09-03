@@ -1,7 +1,7 @@
 const Avatar = require('./avatar');
 const otherPlayers = require('./other_players');
 
-module.exports = (id, {position}) => {
+module.exports = (id, {position, rotation}) => {
   const avatar = otherPlayers.get()[id].avatar;
   const player = avatar.mesh;
   const {x, y, z} = position;
@@ -23,6 +23,10 @@ module.exports = (id, {position}) => {
   }
 
   player.position.set(x, y, z);
+
+  // if(rotation){
+  //   player.rotation.set(rotation.x, rotation.y, rotation.z);
+  // }
 
   Avatar.render(avatar);
 };
