@@ -53,6 +53,7 @@ const lastPosition = {x: null, y: null, z:null};
 const lastRotation = {x: null, y: null, z:null};
 
 const emitPlayerPosition = (position, rotation) => {
+  rotation = {x: rotation.x, y:rotation.y, z:rotation.z}; // line looks strange but needed to deal with setters
   if (positionsDifferent(position, lastPosition) || positionsDifferent(rotation, lastRotation)) {
     socket.emit('position', {position, rotation});
     lastPosition.x = position.x;

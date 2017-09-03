@@ -24,9 +24,9 @@ module.exports = (id, {position, rotation}) => {
 
   player.position.set(x, y, z);
 
-  // if(rotation){
-  //   player.rotation.set(rotation.x, rotation.y, rotation.z);
-  // }
+  if(rotation){
+    player.rotation.y = rotation.y;
+  }
 
   Avatar.render(avatar);
 };

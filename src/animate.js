@@ -25,6 +25,7 @@ const start = (options) => {
       const player = getPlayer();
       sockets.emitPlayerPosition(player.position, player.rotation);
       const players = otherPlayers.get();
+
       Object.keys(players).forEach((id) => {
         moveOtherPlayer(id, players[id]);
       });
