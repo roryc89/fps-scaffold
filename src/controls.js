@@ -1,3 +1,4 @@
+const shoot = require('./shoot');
 // adds listeners for key presses for controlling the player
 const init = () => {
 
@@ -51,6 +52,7 @@ const init = () => {
 
   document.addEventListener('keydown', onKeyDown, false);
   document.addEventListener('keyup', onKeyUp, false);
+  document.addEventListener('click', shoot, false);
 }
 
 const movements = {

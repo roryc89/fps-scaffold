@@ -1,6 +1,7 @@
 const socketIo = require('socket.io');
 const http = require('http');
 const playerData = require('./player_data');
+const shots = require('./shots');
 
 module.exports = (app) => {
 
@@ -33,6 +34,17 @@ module.exports = (app) => {
       socket.broadcast.emit('other player position', {id, position, rotation});
     });
 
+    socket.on('shot fired', ({position, rotation}) => {
+      shots.push({
+        position,
+        rotation,
+        createdAt: process.hrtime(),
+        shooterId: id
+      });
+
+      console.log('shots', shots.get())
+    });
+
     socket.on('disconnect', () => {
       playerData.remove(id);
       socket.broadcast.emit('other player disconnected', {id});
@@ -45,6 +57,7 @@ module.exports = (app) => {
 };
 
 const getPlayerDefaults = () => ({
-  position : { x: 0, y:0, z:0},
-  rotation : { x: 0, y:0, z:0}
+  position: { x: 0, y:0, z:0},
+  rotation: { x: 0, y:0, z:0},
+  health: 100
 });
